@@ -1,0 +1,190 @@
+:root {
+  /* Color */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray: #6d6d6d;
+  --color-soft-gray: #c4c4c4;
+  --color-blue: #3478f6;
+  --color-background: #f0f1f4;
+
+  /* Font size */
+  --size-small: 13px;
+  --size-regular: 14px;
+  --size-large: 18px;
+
+  /* Font weight */
+  --weight-regular: 400;
+  --weight-semi-bold: 600;
+}
+
+body {
+  font-family: 'Apple SD Gothic Neo';
+  margin: 0;
+  cursor: default;
+  background-color: var(--color-background);
+}
+
+.header {
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  background-color: var(--color-white);
+}
+
+.categories {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  padding: 13px 10px;
+}
+
+.category {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px 4px;
+  gap: 4px;
+  border: 1px solid var(--color-soft-gray);
+  border-radius: 30px;
+  margin-right: 5px;
+}
+
+.category span {
+  font-size: var(--size-regular);
+  font-weight: var(--weight-regular);
+}
+
+.category.inactive {
+  color: var(--color-gray);
+}
+
+.category.active {
+  color: var(--color-blue);
+}
+
+.category.inactive .search-image {
+  content: url(assets/images/ico_search_inactive.png);
+}
+.category.active .search-image {
+  content: url(assets/images/ico_search_active.png);
+}
+.category.inactive .calendar-image {
+  content: url(assets/images/ico_calendar-check_inactive.png);
+}
+.category.active .calendar-image {
+  content: url(assets/images/ico_calendar-check_active.png);
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 80px;
+  margin: auto;
+  gap: 65px;
+  position: fixed;
+  height: 50px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: var(--color-black);
+  border-radius: 20px;
+}
+
+.navbar__button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 10px;
+  font-weight: var(--weight-semi-bold);
+}
+
+.navbar__button.active {
+  color: var(--color-white);
+}
+
+.navbar__button.inactive {
+  color: var(--color-gray);
+}
+
+.navbar__button img {
+  width: 20px;
+  height: 20px;
+}
+
+.navbar__button.inactive .home-image {
+  content: url(assets/images/btn_home_inactive.png);
+}
+.navbar__button.active .home-image {
+  content: url(assets/images/btn_home_active.png);
+}
+.navbar__button.inactive .scrap-image {
+  content: url(assets/images/btn_scrap_inactive.png);
+}
+.navbar__button.active .scrap-image {
+  content: url(assets/images/btn_scrap_active.png);
+}
+
+.navbar__button .button__desc {
+  margin-top: 12px;
+}
+
+.main {
+  padding: 15px;
+}
+
+.article {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--color-white);
+  border-radius: 8px;
+  padding: 10px 18px;
+}
+
+.headline-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  line-height: 28px;
+}
+
+.headline {
+  font-size: var(--size-large);
+  font-weight: var(--weight-semi-bold);
+}
+
+.scraped .star.inactive {
+  content: url(assets/images/ico_star_inactive.png);
+}
+.scraped .star.active {
+  content: url(assets/images/ico_star_active.png);
+}
+
+.subline-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: var(--size-small);
+  line-height: 20px;
+}
+
+.subline-box .author {
+  color: var(--color-black);
+  font-weight: var(--weight-regular);
+}
+
+.subline-box .author .newspaper {
+  margin-right: 10px;
+}
+
+.subline-box .reg-date {
+  color: var(--color-gray);
+}
