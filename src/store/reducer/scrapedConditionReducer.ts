@@ -1,17 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Icondition } from '../../lib/interface/Icondition';
+import { ICondition } from '../../lib/interface/ICondition';
 
-const initialState: Icondition = {
+const initialState: ICondition = {
   keyword: '',
   date: '',
   nation: '',
+  'api-key': import.meta.env.VITE_MY_ARTICLE_SCRAPER_API_KEY,
 };
 
 export const scrapedConditionSlice = createSlice({
   name: 'scrapedCondition',
   initialState,
   reducers: {
-    setScrapedConditionsAction: (state, action: PayloadAction<Icondition>) => {
+    setScrapedConditionsAction: (state, action: PayloadAction<ICondition>) => {
       state = action.payload;
     },
   },
