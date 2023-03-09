@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import conditionSlice from './reducer/conditionReducer';
+import conditionReducer from './reducer/conditionReducer';
+import popupReducer from './reducer/popupReducer';
 import scrapedConditionReducer from './reducer/scrapedConditionReducer';
+import sectionTypeReducer from './reducer/sectionTypeReducer';
 
 export const store = configureStore({
   reducer: {
-    condition: conditionSlice,
+    sectionType: sectionTypeReducer,
+    condition: conditionReducer,
     scrapedCondition: scrapedConditionReducer,
+    popupType: popupReducer,
   },
 });
 

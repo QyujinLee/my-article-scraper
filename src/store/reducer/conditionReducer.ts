@@ -1,11 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICondition } from '../../lib/interface/ICondition';
+import { ICondition } from '../../lib/interface/Icondition';
 
 const initialState: ICondition = {
   keyword: '',
   date: '',
-  nation: '',
-  'api-key': import.meta.env.VITE_MY_ARTICLE_SCRAPER_API_KEY,
+  nation: [],
 };
 
 export const conditionSlice = createSlice({

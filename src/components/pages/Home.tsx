@@ -24,12 +24,11 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    setLoading(true);
-    getArticle({
-      'api-key': import.meta.env.VITE_MY_ARTICLE_SCRAPER_API_KEY,
-      page,
-    })
+  /**
+   * 기사 조회
+   */
+  const getArticleFunc = async () => {
+    await getArticle({ page })
       .then((response: AxiosResponse<IServerData>) => {
         setArticles((prevArticles) => [
           ...prevArticles,
@@ -48,6 +47,11 @@ export default function Home() {
         console.log(`error : ${error}`);
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    getArticleFunc();
   }, [page]);
 
   useEffect(() => {
