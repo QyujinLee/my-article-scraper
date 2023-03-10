@@ -2,9 +2,5 @@ import React from 'react';
 import Article from '../Article';
 
 export default function Scraped() {
-  return (
-    <div className="main">
-      <Article />
-    </div>
-  );
+  return <div className="main">{/* <Article /> */}</div>;
 }

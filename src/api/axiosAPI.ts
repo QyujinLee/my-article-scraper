@@ -1,5 +1,5 @@
 import { IOriginArticle } from '../lib/interface/IArticle';
-import { IApICondition } from '../lib/interface/Icondition';
+import { IApICondition } from '../lib/interface/ICondition';
 import axios from './axiosInstance';
 
 export interface IServerData {

@@ -1,5 +1,5 @@
 export interface IArticle {
-  _id: string;
+  id: string;
   headline: string;
   webUrl: string;
   source: string;

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICondition } from '../../lib/interface/Icondition';
+import { ICondition } from '../../lib/interface/ICondition';
 
 const initialState: ICondition = {
   keyword: '',
-  date: '',
+  date: undefined,
   nation: [],
 };
 
@@ -12,7 +12,10 @@ export const scrapedConditionSlice = createSlice({
   initialState,
   reducers: {
     setScrapedConditionsAction: (state, action: PayloadAction<ICondition>) => {
-      state = action.payload;
+      const { keyword, date, nation } = action.payload;
+      state.keyword = keyword;
+      state.date = date;
+      state.nation = nation;
     },
   },
 });

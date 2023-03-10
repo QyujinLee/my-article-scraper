@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Home from './components/pages/Home';
 import Scraped from './components/pages/Scraped';
@@ -14,7 +14,8 @@ function App() {
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
-              <Route path="/scraped" element={<Scraped />} />
+              <Route path="/scrap" element={<Scraped />} />
+              <Route path="*" element={<Navigate to="/" />} />
             </Route>
           </Routes>
         </BrowserRouter>

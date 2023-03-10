@@ -1,14 +1,14 @@
-import { setConditionsAction } from '../store/reducer/conditionReducer';
-import { ICondition } from '../lib/interface/Icondition';
+import { setScrapedConditionsAction } from '../store/reducer/scrapedConditionReducer';
+import { ICondition } from '../lib/interface/ICondition';
 import { useAppDispatch, useAppSelector } from './../store/hooks';
 export default function useScrapedCondition() {
   const dispatch = useAppDispatch();
 
-  const { keyword, date, nation } = useAppSelector((state) => state.condition);
+  const { keyword, date, nation } = useAppSelector((state) => state.scrapedCondition);
 
-  const setCondition = (data: ICondition) => {
-    dispatch(setConditionsAction(data));
+  const setScrapedCondition = (data: ICondition) => {
+    dispatch(setScrapedConditionsAction(data));
   };
 
-  return { keyword, date, nation, setCondition };
+  return { keyword, date, nation, setScrapedCondition };
 }

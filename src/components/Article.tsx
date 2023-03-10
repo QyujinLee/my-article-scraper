@@ -1,13 +1,28 @@
 import React from 'react';
+import useScrapedIds from '../hooks/useScrapedIds';
 import { IArticle } from '../lib/interface/IArticle';
 
-export default function Article({ _id, headline, webUrl, source, author, pubDate }: IArticle) {
+export default function Article({ id, headline, webUrl, source, author, pubDate }: IArticle) {
+  const { scrapedIds, scrapId, removeScrapedId } = useScrapedIds();
+
   /**
    * 기사 클릭 시 해당 기사 페이지로 리다이렉트
    * @param webUrl string
    */
   const handleClickHeadline = (webUrl: string) => {
     window.location.href = webUrl;
+  };
+
+  /**
+   * 스크랩 버튼 클릭 시 이벤트
+   * @param id
+   */
+  const handleClickScrap = (id: string) => {
+    if (scrapedIds.includes(id)) {
+      removeScrapedId(id);
+    } else {
+      scrapId(id);
+    }
   };
 
   return (
@@ -21,8 +36,8 @@ export default function Article({ _id, headline, webUrl, source, author, pubDate
         >
           {headline}
         </div>
-        <div className="scraped">
-          <img className="star inactive" />
+        <div className="scraped" onClick={() => handleClickScrap(id)}>
+          <img className={`star ${scrapedIds.includes(id) ? 'active' : 'inactive'}`} />
         </div>
       </div>
       <div className="subline-box">

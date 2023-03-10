@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useSectionType from '../hooks/useSectionType';
 
 export default function Footer() {
+  const navigate = useNavigate();
   const { value: sectionType, setSectionType } = useSectionType();
 
   /**
@@ -10,6 +12,7 @@ export default function Footer() {
   const handleSection = useCallback((e: React.MouseEvent) => {
     const value: string | undefined = (e.currentTarget as HTMLDivElement).dataset.section;
     setSectionType(value);
+    navigate(`/${value}`);
   }, []);
 
   return (
