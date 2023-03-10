@@ -7,12 +7,14 @@ import { IArticle } from '../../lib/interface/IArticle';
 import { getDay, replaceWhiteSpace } from '../../lib/common';
 import useCondition from '../../hooks/useCondition';
 import { IApICondition, ICondition } from '../../lib/interface/ICondition';
+import Loading from '../Loading';
 
 export default function Home() {
   const [articles, setArticles] = useState<Array<IArticle>>([]);
   const [page, setPage] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const { keyword, date, nation }: ICondition = useCondition();
+  const [isInit, setIsinit] = useState<boolean>(true);
 
   /**
    * 스크롤 감지
@@ -43,19 +45,28 @@ export default function Home() {
 
     // 날짜 set
     if (date) {
-      const formattedDate = moment(date).format('YYYYMMDD');
-      params.begin_date = formattedDate;
-      params.end_date = formattedDate;
+      const formattedDate = moment(date).format('YYYY-MM-DD');
+      const insertValue = `pub_date:("${formattedDate}")`;
+      if (!params.fq) {
+        params.fq = insertValue;
+      } else {
+        params.fq += ` AND ${insertValue}`;
+      }
     }
 
     // 선택된 국가가 1개일 경우
     if (nation.length === 1) {
-      params.fq = `glocations:("${replaceWhiteSpace(nation[0].code)}")`;
+      const insertValue = `glocations:("${replaceWhiteSpace(nation[0].code)}")`;
+      if (!params.fq) {
+        params.fq = insertValue;
+      } else {
+        params.fq += ` AND ${insertValue}")`;
+      }
     }
 
     // 선택된 국가가 1개 이상일 경우
     if (nation.length > 1) {
-      params.fq = `glocations:(${nation
+      const insertValue = `glocations:(${nation
         .map((item, idx, original) => {
           if (idx === original.length - 1) {
             return `"${replaceWhiteSpace(item.code)}"`;
@@ -64,6 +75,12 @@ export default function Home() {
           }
         })
         .join('')})`;
+
+      if (!params.fq) {
+        params.fq = insertValue;
+      } else {
+        params.fq += ` AND ${insertValue}`;
+      }
     }
 
     return params;
@@ -117,7 +134,10 @@ export default function Home() {
   }, [page]);
 
   useEffect(() => {
-    getArticleFunc(true);
+    if (!isInit) {
+      getArticleFunc(true);
+    }
+    setIsinit(false);
   }, [keyword, date, nation]);
 
   useEffect(() => {
@@ -139,7 +159,7 @@ export default function Home() {
             pubDate={article.pubDate}
           />
         ))}
-      {loading && <p className="loading">Loading...</p>}
+      {loading && <Loading />}
     </div>
   );
 }

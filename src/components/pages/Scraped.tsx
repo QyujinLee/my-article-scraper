@@ -5,17 +5,19 @@ import { getArticle, IServerData } from '../../api/axiosAPI';
 import Article from '../Article';
 import { IArticle } from '../../lib/interface/IArticle';
 import { getDay, replaceWhiteSpace } from '../../lib/common';
-import useCondition from '../../hooks/useCondition';
 import { IApICondition, ICondition } from '../../lib/interface/ICondition';
 import useScrapedIds from '../../hooks/useScrapedIds';
 import BlankPage from './BlankPage';
+import useScrapedCondition from '../../hooks/useScrapedCondition';
+import Loading from '../Loading';
 
 export default function Scraped() {
   const [articles, setArticles] = useState<Array<IArticle>>([]);
   const [page, setPage] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
-  const { keyword, date, nation }: ICondition = useCondition();
+  const { keyword, date, nation }: ICondition = useScrapedCondition();
   const { scrapedIds } = useScrapedIds();
+  const [isInit, setIsinit] = useState<boolean>(true);
 
   /**
    * 스크롤 감지
@@ -39,6 +41,22 @@ export default function Scraped() {
       page,
     };
 
+    if (scrapedIds.length === 1) {
+      params.fq = `_id:("${scrapedIds.join(',')}")`;
+    }
+
+    if (scrapedIds.length > 1) {
+      params.fq = `_id:(${scrapedIds
+        .map((item, idx, original) => {
+          if (idx === original.length - 1) {
+            return `"${item}"`;
+          } else {
+            return `"${item}" OR `;
+          }
+        })
+        .join('')})`;
+    }
+
     // 키워드 set
     if (keyword !== '') {
       params.q = replaceWhiteSpace(keyword);
@@ -46,19 +64,18 @@ export default function Scraped() {
 
     // 날짜 set
     if (date) {
-      const formattedDate = moment(date).format('YYYYMMDD');
-      params.begin_date = formattedDate;
-      params.end_date = formattedDate;
+      const formattedDate = moment(date).format('YYYY-MM-DD');
+      params.fq += ` AND pub_date:("${formattedDate}")`;
     }
 
     // 선택된 국가가 1개일 경우
     if (nation.length === 1) {
-      params.fq = `glocations:("${replaceWhiteSpace(nation[0].code)}")`;
+      params.fq += ` AND glocations:("${replaceWhiteSpace(nation[0].code)}")`;
     }
 
     // 선택된 국가가 1개 이상일 경우
     if (nation.length > 1) {
-      params.fq = `glocations:(${nation
+      params.fq += ` AND glocations:(${nation
         .map((item, idx, original) => {
           if (idx === original.length - 1) {
             return `"${replaceWhiteSpace(item.code)}"`;
@@ -116,12 +133,17 @@ export default function Scraped() {
   };
 
   useEffect(() => {
-    getArticleFunc(false);
+    if (!isInit) {
+      getArticleFunc(false);
+    }
   }, [page]);
 
   useEffect(() => {
-    getArticleFunc(true);
-  }, [keyword, date, nation]);
+    if (scrapedIds.length !== 0) {
+      getArticleFunc(true);
+    }
+    setIsinit(false);
+  }, [keyword, date, nation, scrapedIds]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -144,7 +166,7 @@ export default function Scraped() {
             pubDate={article.pubDate}
           />
         ))}
-      {loading && <p className="loading">Loading...</p>}
+      {loading && <Loading />}
     </div>
   );
 }
