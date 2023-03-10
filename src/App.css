@@ -19,7 +19,7 @@
 }
 
 body {
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'Apple SD Gothic Neo', sans-serif;
   margin: 0;
   cursor: default;
   background-color: var(--color-background);
@@ -214,6 +214,50 @@ body {
 
 .subline-box .reg-date {
   color: var(--color-gray);
+}
+
+/*
+ * Blank Page
+ */
+
+.blank__main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto 16px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 100px;
+  left: 0;
+}
+
+.blank__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.blank__wrapper .blank__img {
+  width: 27px;
+  height: 36px;
+}
+
+.blank__wrapper .blank__message {
+  color: var(--color-gray);
+  font-weight: var(--weight-semi-bold);
+}
+
+.blank__wrapper .btn__home {
+  color: var(--color-white);
+  font-size: var(--size-regular);
+  font-weight: var(--weight-semi-bold);
+  border: none;
+  background-color: var(--color-blue);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 10px;
 }
 
 /*

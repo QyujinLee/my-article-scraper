@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'Apple SD Gothic Neo';
+  src: url('/fonts/AppleSDGothicNeo.ttf') format('truetype');
+}
+
+body {
+  font-family: 'Apple SD Gothic Neo', sans-serif;
+}
