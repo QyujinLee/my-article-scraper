@@ -53,9 +53,15 @@ body {
   align-items: center;
   padding: 6px 12px 4px;
   gap: 4px;
-  border: 1px solid var(--color-soft-gray);
   border-radius: 30px;
   margin-right: 5px;
+}
+
+.category .elipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
 }
 
 .category span {
@@ -65,10 +71,12 @@ body {
 
 .category.inactive {
   color: var(--color-gray);
+  border: 1px solid var(--color-soft-gray);
 }
 
 .category.active {
   color: var(--color-blue);
+  border: 1px solid var(--color-blue);
 }
 
 .category.inactive .search-image {
@@ -251,6 +259,15 @@ body {
   justify-content: space-between;
 }
 
+.calendar__wrapper {
+  width: 90%;
+}
+
+.calendar__wrapper input {
+  width: 100%;
+  outline: none;
+}
+
 .input__wrapper.calendar .calendar-image.inactive {
   width: 16px;
   height: 16px;
@@ -264,12 +281,13 @@ body {
 
 .input__headline {
   border: none;
+  outline: none;
   width: 100%;
 }
 
 .input__date {
   border: none;
-  width: 90%;
+  width: 100%;
 }
 
 .nations .btn__nation {
@@ -288,7 +306,7 @@ body {
 
 .nations .btn__nation.active {
   color: var(--color-white);
-  border: none;
+  border: 1px solid var(--color-soft-blue);
   background-color: var(--color-soft-blue);
 }
 
@@ -316,4 +334,10 @@ body {
 .loading {
   text-align: center;
   font-size: 20px;
+}
+
+@media screen and (max-width: 389px) {
+  .category .elipsis {
+    max-width: 52px;
+  }
 }
