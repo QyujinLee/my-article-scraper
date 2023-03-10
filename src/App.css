@@ -61,7 +61,7 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 80px;
+  max-width: 90px;
 }
 
 .category span {
@@ -338,6 +338,10 @@ body {
 
 @media screen and (max-width: 389px) {
   .category .elipsis {
-    max-width: 52px;
+    max-width: 84px;
+  }
+
+  .category span {
+    font-size: var(--size-small);
   }
 }
