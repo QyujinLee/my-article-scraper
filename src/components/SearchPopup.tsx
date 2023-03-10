@@ -21,14 +21,14 @@ export default function SearchPopup() {
   const { setScrapedCondition } = useScrapedCondition();
 
   const nationValues: nationValuesType = [
-    { name: '대한민국', code: `South+Korea` },
+    { name: '대한민국', code: `South Korea` },
     { name: '중국', code: `China` },
     { name: '일본', code: `Japan` },
-    { name: '미국', code: `United+States` },
-    { name: '북한', code: `North+Korea` },
+    { name: '미국', code: `United States` },
+    { name: '북한', code: `North Korea` },
     { name: '러시아', code: `Russia` },
     { name: '프랑스', code: `France` },
-    { name: '영국', code: `United+Kingdom` },
+    { name: '영국', code: `United Kingdom` },
   ];
 
   // 한국어 설정

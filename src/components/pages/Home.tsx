@@ -6,8 +6,10 @@ import Article from '../Article';
 import { IArticle } from '../../lib/interface/IArticle';
 import { getDay, replaceWhiteSpace } from '../../lib/common';
 import useCondition from '../../hooks/useCondition';
-import { IApICondition, ICondition } from '../../lib/interface/ICondition';
+import { IApICondition, ICondition } from '../../lib/interface/Icondition';
 import Loading from '../Loading';
+import BlankPage from './BlankPage';
+import { toast } from 'react-toastify';
 
 export default function Home() {
   const [articles, setArticles] = useState<Array<IArticle>>([]);
@@ -40,7 +42,7 @@ export default function Home() {
 
     // 키워드 set
     if (keyword !== '') {
-      params.q = replaceWhiteSpace(keyword);
+      params.fq = `headline:(${keyword})`;
     }
 
     // 날짜 set
@@ -56,7 +58,7 @@ export default function Home() {
 
     // 선택된 국가가 1개일 경우
     if (nation.length === 1) {
-      const insertValue = `glocations:("${replaceWhiteSpace(nation[0].code)}")`;
+      const insertValue = `glocations:("${nation[0].code}")`;
       if (!params.fq) {
         params.fq = insertValue;
       } else {
@@ -69,9 +71,9 @@ export default function Home() {
       const insertValue = `glocations:(${nation
         .map((item, idx, original) => {
           if (idx === original.length - 1) {
-            return `"${replaceWhiteSpace(item.code)}"`;
+            return `"${item.code}"`;
           } else {
-            return `"${replaceWhiteSpace(item.code)}" OR `;
+            return `"${item.code}" OR `;
           }
         })
         .join('')})`;
@@ -125,6 +127,14 @@ export default function Home() {
       })
       .catch((error) => {
         console.error(`error : ${error}`);
+        if (error.response.status === 429) {
+          toast(`😓 빈번한 요청으로 인해\n조회가 거부되었습니다.\n잠시 후 다시 시도해주세요.`, {
+            className: 'my-toast',
+            closeButton: false,
+            autoClose: 2000,
+            hideProgressBar: true,
+          });
+        }
         setLoading(false);
       });
   };
@@ -147,7 +157,8 @@ export default function Home() {
 
   return (
     <div className="main">
-      {articles &&
+      {articles.length === 0 && <BlankPage isNoScraped={false} />}
+      {articles.length > 0 &&
         articles.map((article) => (
           <Article
             key={`${article.id}`}

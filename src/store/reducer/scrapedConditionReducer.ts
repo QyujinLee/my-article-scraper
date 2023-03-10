@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICondition } from '../../lib/interface/ICondition';
+import { ICondition } from '../../lib/interface/Icondition';
 
 const initialState: ICondition = {
   keyword: '',

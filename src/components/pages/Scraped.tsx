@@ -5,11 +5,12 @@ import { getArticle, IServerData } from '../../api/axiosAPI';
 import Article from '../Article';
 import { IArticle } from '../../lib/interface/IArticle';
 import { getDay, replaceWhiteSpace } from '../../lib/common';
-import { IApICondition, ICondition } from '../../lib/interface/ICondition';
+import { IApICondition, ICondition } from '../../lib/interface/Icondition';
 import useScrapedIds from '../../hooks/useScrapedIds';
 import BlankPage from './BlankPage';
 import useScrapedCondition from '../../hooks/useScrapedCondition';
 import Loading from '../Loading';
+import { toast } from 'react-toastify';
 
 export default function Scraped() {
   const [articles, setArticles] = useState<Array<IArticle>>([]);
@@ -70,7 +71,7 @@ export default function Scraped() {
 
     // 선택된 국가가 1개일 경우
     if (nation.length === 1) {
-      params.fq += ` AND glocations:("${replaceWhiteSpace(nation[0].code)}")`;
+      params.fq += ` AND glocations:("${nation[0].code}")`;
     }
 
     // 선택된 국가가 1개 이상일 경우
@@ -78,9 +79,9 @@ export default function Scraped() {
       params.fq += ` AND glocations:(${nation
         .map((item, idx, original) => {
           if (idx === original.length - 1) {
-            return `"${replaceWhiteSpace(item.code)}"`;
+            return `"${item.code}"`;
           } else {
-            return `"${replaceWhiteSpace(item.code)}" OR `;
+            return `"${item.code}" OR `;
           }
         })
         .join('')})`;
@@ -128,6 +129,14 @@ export default function Scraped() {
       })
       .catch((error) => {
         console.error(`error : ${error}`);
+        if (error.response.status === 429) {
+          toast(`😓 빈번한 요청으로 인해\n조회가 거부되었습니다.\n잠시 후 다시 시도해주세요.`, {
+            className: 'my-toast',
+            closeButton: false,
+            autoClose: 2000,
+            hideProgressBar: true,
+          });
+        }
         setLoading(false);
       });
   };
@@ -152,9 +161,10 @@ export default function Scraped() {
 
   return (
     <div className="main">
-      {scrapedIds.length === 0 && <BlankPage />}
+      {scrapedIds.length === 0 && <BlankPage isNoScraped />}
+      {scrapedIds.length > 0 && articles.length === 0 && <BlankPage isNoScraped={false} />}
       {scrapedIds.length > 0 &&
-        articles &&
+        articles.length > 0 &&
         articles.map((article) => (
           <Article
             key={`${article.id}`}
