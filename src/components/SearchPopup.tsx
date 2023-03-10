@@ -31,6 +31,7 @@ export default function SearchPopup() {
     { name: '영국', code: `United+Kingdom` },
   ];
 
+  // 한국어 설정
   registerLocale('ko', ko);
 
   /**

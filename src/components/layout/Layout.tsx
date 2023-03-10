@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import usePopupType from '../../hooks/usePopupType';
 import useScrapedIds from '../../hooks/useScrapedIds';
@@ -11,7 +11,8 @@ export default function Layout() {
   const { isShowFilter } = usePopupType();
   const location = useLocation();
   const { value: sectionType, setSectionType } = useSectionType();
-  const { setScrapedIds } = useScrapedIds();
+  const { scrapedIds, setScrapedIds } = useScrapedIds();
+  const [isBlank, setIsBlank] = useState<boolean>(false);
 
   // 새로고침 시 location을 바탕으로 sectionType set
   useEffect(() => {
@@ -28,13 +29,23 @@ export default function Layout() {
 
     if (ids) {
       setScrapedIds(JSON.parse(ids));
+    } else {
+      setIsBlank(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (scrapedIds.length > 0) {
+      setIsBlank(false);
+    } else {
+      setIsBlank(true);
+    }
+  }, [sectionType]);
 
   return (
     <div>
       {isShowFilter && <SearchPopup />}
-      <Header />
+      {!(sectionType === 'scrap' && isBlank) && <Header />}
       <Outlet />
       <Footer />
     </div>
