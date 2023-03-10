@@ -224,7 +224,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: auto 16px;
+  margin: auto 50px;
   position: fixed;
   top: 0;
   right: 0;
