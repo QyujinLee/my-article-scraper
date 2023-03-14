@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from './../store/hooks';
-import { showFilterPopupAction, hideFilterPopupAction } from '../store/reducer/popupReducer';
+import { showFilterPopupAction, hideFilterPopupAction } from '../reducer/popupReducer';
 export default function usePopupType() {
   const dispatch = useAppDispatch();
 

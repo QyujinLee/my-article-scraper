@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from './../store/hooks';
-import { setSectionTypeAction } from '../store/reducer/sectionTypeReducer';
+import { setSectionTypeAction } from '../reducer/sectionTypeReducer';
 export default function useSectionType() {
   const dispatch = useAppDispatch();
 

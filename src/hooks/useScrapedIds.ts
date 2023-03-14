@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from './../store/hooks';
-import { setScrapedIdsAction } from '../store/reducer/scrapedIdsReducer';
+import { setScrapedIdsAction } from '../reducer/scrapedIdsReducer';
 export default function useScrapedIds() {
   const dispatch = useAppDispatch();
 

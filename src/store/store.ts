@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import conditionReducer from './reducer/conditionReducer';
-import popupReducer from './reducer/popupReducer';
-import scrapedConditionReducer from './reducer/scrapedConditionReducer';
-import scrapedIdsReducer from './reducer/scrapedIdsReducer';
-import sectionTypeReducer from './reducer/sectionTypeReducer';
+import conditionReducer from '../reducer/conditionReducer';
+import popupReducer from '../reducer/popupReducer';
+import scrapedConditionReducer from '../reducer/scrapedConditionReducer';
+import scrapedIdsReducer from '../reducer/scrapedIdsReducer';
+import sectionTypeReducer from '../reducer/sectionTypeReducer';
 
 export const store = configureStore({
   reducer: {

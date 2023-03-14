@@ -1,4 +1,4 @@
-import { setConditionsAction } from '../store/reducer/conditionReducer';
+import { setConditionsAction } from '../reducer/conditionReducer';
 import { ICondition } from '../lib/interface/Icondition';
 import { useAppDispatch, useAppSelector } from './../store/hooks';
 export default function useCondition() {

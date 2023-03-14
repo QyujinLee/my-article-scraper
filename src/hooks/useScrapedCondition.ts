@@ -1,4 +1,4 @@
-import { setScrapedConditionsAction } from '../store/reducer/scrapedConditionReducer';
+import { setScrapedConditionsAction } from '../reducer/scrapedConditionReducer';
 import { ICondition } from '../lib/interface/Icondition';
 import { useAppDispatch, useAppSelector } from './../store/hooks';
 export default function useScrapedCondition() {
