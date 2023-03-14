@@ -157,7 +157,7 @@ export default function Home() {
 
   return (
     <div className="main">
-      {articles.length === 0 && <BlankPage isNoScraped={false} />}
+      {articles.length === 0 && !loading && <BlankPage isNoScraped={false} />}
       {articles.length > 0 &&
         articles.map((article) => (
           <Article

@@ -161,8 +161,8 @@ export default function Scraped() {
 
   return (
     <div className="main">
-      {scrapedIds.length === 0 && <BlankPage isNoScraped />}
-      {scrapedIds.length > 0 && articles.length === 0 && <BlankPage isNoScraped={false} />}
+      {scrapedIds.length === 0 && !loading && <BlankPage isNoScraped />}
+      {scrapedIds.length > 0 && articles.length === 0 && !loading && <BlankPage isNoScraped={false} />}
       {scrapedIds.length > 0 &&
         articles.length > 0 &&
         articles.map((article) => (
