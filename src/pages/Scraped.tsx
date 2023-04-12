@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { AxiosResponse } from 'axios';
 import moment from 'moment';
-import { getArticle, IServerData } from '../../api/axiosAPI';
-import Article from '../Article';
-import { IArticle } from '../../lib/interface/IArticle';
-import { getDay, replaceWhiteSpace } from '../../lib/common';
-import useCondition from '../../hooks/useCondition';
-import { IApICondition, ICondition } from '../../lib/interface/Icondition';
-import Loading from '../Loading';
+import { getArticle, IServerData } from '../api/axiosAPI';
+import Article from '../components/Article';
+import { IArticle } from '../lib/interface/IArticle';
+import { getDay, replaceWhiteSpace } from '../lib/common';
+import { IApICondition, ICondition } from '../lib/interface/Icondition';
+import useScrapedIds from '../hooks/useScrapedIds';
 import BlankPage from './BlankPage';
+import useScrapedCondition from '../hooks/useScrapedCondition';
+import Loading from '../components/Loading';
 import { toast } from 'react-toastify';
 
-export default function Home() {
+export default function Scraped() {
   const [articles, setArticles] = useState<Array<IArticle>>([]);
   const [page, setPage] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
-  const { keyword, date, nation }: ICondition = useCondition();
+  const { keyword, date, nation }: ICondition = useScrapedCondition();
+  const { scrapedIds } = useScrapedIds();
   const [isInit, setIsinit] = useState<boolean>(true);
 
   /**
@@ -40,35 +42,41 @@ export default function Home() {
       page,
     };
 
+    if (scrapedIds.length === 1) {
+      params.fq = `_id:("${scrapedIds.join(',')}")`;
+    }
+
+    if (scrapedIds.length > 1) {
+      params.fq = `_id:(${scrapedIds
+        .map((item, idx, original) => {
+          if (idx === original.length - 1) {
+            return `"${item}"`;
+          } else {
+            return `"${item}" OR `;
+          }
+        })
+        .join('')})`;
+    }
+
     // 키워드 set
     if (keyword !== '') {
-      params.fq = `headline:(${keyword})`;
+      params.q = replaceWhiteSpace(keyword);
     }
 
     // 날짜 set
     if (date) {
       const formattedDate = moment(date).format('YYYY-MM-DD');
-      const insertValue = `pub_date:("${formattedDate}")`;
-      if (!params.fq) {
-        params.fq = insertValue;
-      } else {
-        params.fq += ` AND ${insertValue}`;
-      }
+      params.fq += ` AND pub_date:("${formattedDate}")`;
     }
 
     // 선택된 국가가 1개일 경우
     if (nation.length === 1) {
-      const insertValue = `glocations:("${nation[0].code}")`;
-      if (!params.fq) {
-        params.fq = insertValue;
-      } else {
-        params.fq += ` AND ${insertValue}")`;
-      }
+      params.fq += ` AND glocations:("${nation[0].code}")`;
     }
 
     // 선택된 국가가 1개 이상일 경우
     if (nation.length > 1) {
-      const insertValue = `glocations:(${nation
+      params.fq += ` AND glocations:(${nation
         .map((item, idx, original) => {
           if (idx === original.length - 1) {
             return `"${item.code}"`;
@@ -77,12 +85,6 @@ export default function Home() {
           }
         })
         .join('')})`;
-
-      if (!params.fq) {
-        params.fq = insertValue;
-      } else {
-        params.fq += ` AND ${insertValue}`;
-      }
     }
 
     return params;
@@ -140,15 +142,17 @@ export default function Home() {
   };
 
   useEffect(() => {
-    getArticleFunc(false);
+    if (!isInit) {
+      getArticleFunc(false);
+    }
   }, [page]);
 
   useEffect(() => {
-    if (!isInit) {
+    if (scrapedIds.length !== 0) {
       getArticleFunc(true);
     }
     setIsinit(false);
-  }, [keyword, date, nation]);
+  }, [keyword, date, nation, scrapedIds]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -157,8 +161,10 @@ export default function Home() {
 
   return (
     <div className="main">
-      {articles.length === 0 && !loading && <BlankPage isNoScraped={false} />}
-      {articles.length > 0 &&
+      {scrapedIds.length === 0 && !loading && <BlankPage isNoScraped />}
+      {scrapedIds.length > 0 && articles.length === 0 && !loading && <BlankPage isNoScraped={false} />}
+      {scrapedIds.length > 0 &&
+        articles.length > 0 &&
         articles.map((article) => (
           <Article
             key={`${article.id}`}

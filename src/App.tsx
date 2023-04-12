@@ -1,8 +1,8 @@
 import './App.css';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import Home from './components/pages/Home';
-import Scraped from './components/pages/Scraped';
+import Home from './pages/Home';
+import Scraped from './pages/Scraped';
 import Layout from './components/layout/Layout';
 import { store } from './store/store';
 
